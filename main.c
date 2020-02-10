@@ -7,11 +7,10 @@ t_mlx	*initialize_mlx_struct(void)
 
 	if (!(mlx = (t_mlx*)malloc(sizeof(*mlx))))
 		return (NULL);
-	mlx->x1 = 0;
-	mlx->y1 = 0;
-	mlx->y2 = 300;
-	mlx->x2 = 300;
 	mlx->color = 0xFFFF;
+	mlx->height = WINDOW_HEIGHT;
+	mlx->width = WINDOW_WIDTH;
+	mlx->zoom = 5;
 	return (mlx);
 }
 
@@ -19,22 +18,37 @@ int	deal_key(int key, void *param)
 {
 	t_mlx	*mlx;
 	mlx = param;
-	if (key == 0)
+	if (key == 53)
 	{
-		draw_line(mlx->init, mlx->window, mlx->x1, mlx->y1, mlx->x2, mlx->y2, 0xFFFF);
-		return (1);
+		exit(0);
 	}
-	else if (key == 126)
-		mlx->y2--;
-	else if (key == 125)
-		mlx->y2++;
-	else if (key == 123)
-		mlx->x2--;
-	else if (key == 124)
-		mlx->x2++;
-	draw_line(mlx->init, mlx->window, mlx->x1, mlx->y1, mlx->x2, mlx->y2, mlx->color++);
-	return (1);
+	return (0);
 }
+
+int	mouse_event(int button, int x, int y, void *param)
+{
+	t_mlx	*mlx;
+	mlx = param;
+
+	(void)x;
+	(void)y;
+	if (button == 4)
+	{
+		mlx->zoom--;
+		mlx_clear_window(mlx->init, mlx->window);
+		draw_map(mlx, mlx->s_map);
+		printf("%d\n", mlx->zoom);
+	}
+	if (button == 5)
+	{
+		mlx->zoom++;
+		mlx_clear_window(mlx->init, mlx->window);
+		draw_map(mlx, mlx->s_map);
+	}
+	return (0);
+}
+
+
 
 int	main(int argc, char **argv)
 {
@@ -75,16 +89,15 @@ int	main(int argc, char **argv)
 	mlx = initialize_mlx_struct();
 	if (mlx == NULL)
 		return (0);
-	printf("help");
 	mlx->init = mlx_init();
-	mlx->window = mlx_new_window(mlx->init, 500, 500, "Window");
-	mlx->x1 = 200;
-	mlx->y1 = 200;
+	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");
 	mlx->color = 0xFFFFFF;
+	mlx->s_map = s_map;
 	
-	draw_map(mlx, s_map);
+	draw_map(mlx, mlx->s_map);
 	//draw_line(mlx_ptr, win_ptr, 0, 0, 200, 200, 0xFFFFFF);
 	mlx_hook(mlx->window, 2, 0, deal_key, mlx);
+	mlx_hook(mlx->window, 4, 0, mouse_event, mlx);
 	mlx_loop(mlx->init);
 	return (0);
 }

@@ -1,6 +1,7 @@
 #include "fdf.h"
 #include "math.h" //remove
 
+/*
 int	draw_line(void *mlx_ptr, void *win_ptr, int x1, int y1, int x2, int y2, int color)
 {
 	double	xdir;
@@ -25,7 +26,7 @@ int	draw_line(void *mlx_ptr, void *win_ptr, int x1, int y1, int x2, int y2, int 
 		--pixels;
 	}
 	return (0);
-}
+} */
 
 static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 {
@@ -116,28 +117,19 @@ static void	plot_line(t_mlx *mlx, int x0, int y0, int x1, int y1)
 void	draw_map(t_mlx *mlx, t_map *s_map)
 {
 	int	x;
-	int	y = 0;
-	//int	x1 = 0;
-	//int	y1 = 0;
-	//int	x2 = 0;
-	//int	y2 = 0;
+	int	y;
 
 	x = 0;
+	y = 0;
 	while (y < s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
 	{
 		x = 0;
-		//printf("%d %d %d %d\n", j * 10, i * 10, j * 10, (i + 5) * 10);
-		//printf("%d %d %d %d\n", j * 10, i * 10, (j + 5) * 10, i * 10);
-		plot_line(mlx, x * 5, y * 5, (x + 1) * 5, y * 5);
-		plot_line(mlx, x * 5, y * 5, x * 5, (y + 1) * 5);
+		plot_line(mlx, x * mlx->zoom, y * mlx->zoom, (x + 1) * mlx->zoom, y * mlx->zoom);
+		plot_line(mlx, x * mlx->zoom, y * mlx->zoom, x * mlx->zoom, (y + 1) * mlx->zoom);
 		while (x < s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
 		{
-			//printf("%d %d %d %d\n", j * 10, i * 10, j * 10, (i + 5) * 10);
-			//printf("%d %d %d %d\n", j * 10, i * 10, (j + 5) * 10, i * 10);
-			//plot_line(mlx, j * 10, i * 10, j * 10, (i + 5) * 10);
-			//plot_line(mlx, j * 10, i * 10, (j + 5) * 10, i * 10);
-			plot_line(mlx, x * 5, y * 5, x * 5, (y + 1) * 5);
-			plot_line(mlx, x * 5, y * 5, (x + 1) * 5, y * 5);
+			plot_line(mlx, x * mlx->zoom, y * mlx->zoom, x * mlx->zoom, (y + 1) * mlx->zoom);
+			plot_line(mlx, x * mlx->zoom, y * mlx->zoom, (x + 1) * mlx->zoom, y * mlx->zoom);
 			x++;
 		}
 		y++;
