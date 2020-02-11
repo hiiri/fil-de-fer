@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 19:30:41 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 21:00:44 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,26 +159,48 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 				else
 					mlx->color = DEFAULT_COLOR;
 			}
+			line->xyxy[4] = s_map->map[y][x];
 			if (x + 1 < s_map->cols)
 			{
-				//printf("%d cols\n", s_map->cols);
 				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
 				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
 				line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
 				line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
+				if (mlx->projection == 1)
+					transform_to_isometric(line);
 				plot_line(mlx);
 			}
 			if (y + 1 < s_map->rows)
 			{
-				//printf("%d rows\n", s_map->rows);
 				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;	//are these needed?
 				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;	//are these needed?
 				line->xyxy[2] = x * mlx->zoom + mlx->x_offset;
 				line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset;
+				if (mlx->projection == 1)
+					transform_to_isometric(line);
 				plot_line(mlx);
 			}
 			x++;
 		}
 		y++;
 	}
+}
+
+void		transform_to_isometric(t_line *line)
+{
+	int	previous_x;
+	int	previous_y;
+
+	//if (line->xyxy[0] && line->xyxy[1] && line->xyxy[2] && line->xyxy[3])
+	//{
+	previous_x = line->xyxy[0];
+	previous_y = line->xyxy[1];
+	printf("%d, %d, %d\n", previous_x, previous_y, line->xyxy[4]);
+	line->xyxy[0] = (previous_x - previous_y) * cos(0.523599);
+	line->xyxy[1] = -line->xyxy[4] + (previous_x + previous_y) * sin(0.523599);
+	previous_x = line->xyxy[2];
+	previous_y = line->xyxy[3];
+	line->xyxy[2] = (previous_x - previous_y) * cos(0.523599);
+	line->xyxy[3] = -line->xyxy[4] + (previous_x + previous_y) * sin(0.523599);
+	//}
 }

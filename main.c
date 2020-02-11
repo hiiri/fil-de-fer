@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 18:04:27 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 20:16:49 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_mlx	*initialize_mlx_struct(void)
 	mlx->zoom = ZOOM;
 	mlx->x_offset = X_OFFSET;
 	mlx->y_offset = Y_OFFSET;
+	mlx->projection = 1;
 	return (mlx);
 }
 
@@ -42,6 +43,8 @@ int		deal_key(int key, void *param)
 		mlx->x_offset--;
 	else if (key == RIGHT_ARROW)
 		mlx->x_offset++;
+	else if (key == CHANGE_PROJECTION)
+		mlx->projection = !mlx->projection;
 	mlx_clear_window(mlx->init, mlx->window);
 	draw_map(mlx, mlx->s_map);
 	return (0);
