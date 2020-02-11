@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/10 18:39:59 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 16:24:13 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void		split_line_to_map(char *line, t_map *s_map)
 	{
 		while (line[i] == ' ')
 			i++;
-		s_map->map[s_map->rows][j++] = ft_atoi(&line[i]);
+		if (line[i])
+			s_map->map[s_map->rows][j++] = ft_atoi(&line[i]);
 		while (line[i] != ' ' && line[i])
 			i++;
 	}

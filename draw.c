@@ -6,12 +6,12 @@
 /*   By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/10 18:44:53 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 16:23:40 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
+#include <stdio.h> // remove
 static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 {
 	int	dir_x;
@@ -82,8 +82,17 @@ static void	line_y(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	}
 }
 
-static void	plot_line(t_mlx *mlx, int x0, int y0, int x1, int y1)
+static void	plot_line(t_mlx *mlx)
 {
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+
+	x0 = mlx->s_line->xyxy[0];
+	y0 = mlx->s_line->xyxy[1];
+	x1 = mlx->s_line->xyxy[2];
+	y1 = mlx->s_line->xyxy[3];
 	if (abs(y1 - y0) < abs(x1 - x0))
 	{
 		if (x0 > x1)
@@ -98,24 +107,85 @@ static void	plot_line(t_mlx *mlx, int x0, int y0, int x1, int y1)
 		else
 			line_y(mlx, x0, y0, x1, y1);
 	}
+	/*
+	if (abs(y1 - y0) < abs(x1 - x0))
+	{
+		if (x0 > x1)
+			line_x(mlx, x1, y1, x0, y0);
+		else
+			line_x(mlx, x0, y0, x1, y1);
+	}
+	else
+	{
+		if (y0 > y1)
+			line_y(mlx, x1, y1, x0, y0);
+		else
+			line_y(mlx, x0, y0, x1, y1);
+	}
+	*/
+}
+
+t_line		*init_line(void)
+{
+	//move to other file
+	t_line	*line;
+
+	if (!(line = (t_line*)malloc(sizeof(*line))))
+		return (NULL);
+	line->xyxy[0] = 0;
+	line->xyxy[1] = 0;
+	line->xyxy[2] = 0;
+	line->xyxy[3] = 0;
+	line->color = 0xFFFFFF;
+	return (line);
+}
+
+void		make_line(t_line *line)
+{
+	(void)line;
 }
 
 void		draw_map(t_mlx *mlx, t_map *s_map)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	t_line	*line;
 
-	x = 0;
 	y = 0;
+	line = mlx->s_line;
 	while (y < s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
 	{
 		x = 0;
-		plot_line(mlx, x * mlx->zoom + mlx->x_offset, y * mlx->zoom + mlx->y_offset, (x + 1) * mlx->zoom + mlx->x_offset, y * mlx->zoom + mlx->y_offset);
-		plot_line(mlx, x * mlx->zoom + mlx->x_offset, y * mlx->zoom + mlx->y_offset, x * mlx->zoom + mlx->x_offset, (y + 1) * mlx->zoom + mlx->y_offset);
+		//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
+		//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
+		//line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
+		//line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
+		//plot_line(mlx);
+		//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;		//are these four needed?
+		//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;		//are these four needed?
+		//line->xyxy[2] = x * mlx->zoom + mlx->x_offset; 			//are these four needed?
+		//line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset; 	//are these four needed?
+		//plot_line(mlx);
 		while (x < s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
 		{
-			plot_line(mlx, x * mlx->zoom + mlx->x_offset, y * mlx->zoom + mlx->y_offset, x * mlx->zoom + mlx->x_offset, (y + 1) * mlx->zoom + mlx->y_offset);
-			plot_line(mlx, x * mlx->zoom + mlx->x_offset, y * mlx->zoom + mlx->y_offset, (x + 1) * mlx->zoom + mlx->x_offset, y * mlx->zoom + mlx->y_offset);
+			if (x + 1 < s_map->cols)
+			{
+				//printf("%d cols\n", s_map->cols);
+				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
+				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
+				line->xyxy[2] = x * mlx->zoom + mlx->x_offset;
+				line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset;
+				plot_line(mlx);
+			}
+			if (y + 1 < s_map->rows)
+			{
+				//printf("%d rows\n", s_map->rows);
+				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;	//are these needed?
+				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;	//are these needed?
+				line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
+				line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
+				plot_line(mlx);
+			}
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/10 18:38:16 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 15:21:34 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv)
 	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");
 	mlx->color = 0xFFFFFF;
 	mlx->s_map = s_map;
+	mlx->s_line = init_line();
 	draw_map(mlx, mlx->s_map);
 	//draw_line(mlx_ptr, win_ptr, 0, 0, 200, 200, 0xFFFFFF);
 	mlx_hook(mlx->window, 2, 0, deal_key, mlx);
