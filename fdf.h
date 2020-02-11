@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 20:23:10 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 21:32:59 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ int				deal_key(int key, void *param);
 int				mouse_event(int button, int x, int y, void *param);
 void			make_map(char *filename, t_map *s_map);
 void			draw_map(t_mlx *mlx, t_map *s_map);
-void			make_line(t_line *line);
-void			transform_to_isometric(t_line *line);
+void			make_line(t_mlx *mlx, int coords[4]);
+void			transform_to_isometric(t_line *line, int coords[4]);
 #endif
