@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sadawi <sadawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 16:23:40 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 16:39:19 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 
 	y = 0;
 	line = mlx->s_line;
-	while (y < s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
+	while (y <= s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
 	{
 		x = 0;
 		//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
@@ -166,24 +166,24 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 		//line->xyxy[2] = x * mlx->zoom + mlx->x_offset; 			//are these four needed?
 		//line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset; 	//are these four needed?
 		//plot_line(mlx);
-		while (x < s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
+		while (x <= s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
 		{
-			if (x + 1 < s_map->cols)
+			if (x < s_map->cols + 1)
 			{
 				//printf("%d cols\n", s_map->cols);
 				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
 				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
-				line->xyxy[2] = x * mlx->zoom + mlx->x_offset;
-				line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset;
+				line->xyxy[2] = x + 1 * mlx->zoom + mlx->x_offset;
+				line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
 				plot_line(mlx);
 			}
-			if (y + 1 < s_map->rows)
+			if (y < s_map->rows + 1)
 			{
 				//printf("%d rows\n", s_map->rows);
 				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;	//are these needed?
 				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;	//are these needed?
-				line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
-				line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
+				line->xyxy[2] = x * mlx->zoom + mlx->x_offset;
+				line->xyxy[3] = y + 1 * mlx->zoom + mlx->y_offset;
 				plot_line(mlx);
 			}
 			x++;
