@@ -6,12 +6,12 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 17:02:42 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 17:48:57 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h> // remove
+
 static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 {
 	int	dir_x;
@@ -34,7 +34,7 @@ static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	d = 2 * dir_y - dir_x;
 	pixel_y = y0;
 	pixel_x = x0;
-	while (pixel_x < x1)
+	while (pixel_x <= x1)
 	{
 		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, 0xFFFF);
 		if (d > 0)
@@ -69,7 +69,7 @@ static void	line_y(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	d = 2 * dir_x - dir_y;
 	pixel_y = y0;
 	pixel_x = x0;
-	while (pixel_y < y1)
+	while (pixel_y <= y1)
 	{
 		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, 0xFFFF);
 		if (d > 0)
