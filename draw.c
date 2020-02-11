@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 17:48:57 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 19:30:41 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	pixel_x = x0;
 	while (pixel_x <= x1)
 	{
-		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, 0xFFFF);
+		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, mlx->color);
 		if (d > 0)
 		{
 			y += yi;
@@ -71,7 +71,7 @@ static void	line_y(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	pixel_x = x0;
 	while (pixel_y <= y1)
 	{
-		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, 0xFFFF);
+		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, mlx->color);
 		if (d > 0)
 		{
 			x += xi;
@@ -107,22 +107,6 @@ static void	plot_line(t_mlx *mlx)
 		else
 			line_y(mlx, x0, y0, x1, y1);
 	}
-	/*
-	if (abs(y1 - y0) < abs(x1 - x0))
-	{
-		if (x0 > x1)
-			line_x(mlx, x1, y1, x0, y0);
-		else
-			line_x(mlx, x0, y0, x1, y1);
-	}
-	else
-	{
-		if (y0 > y1)
-			line_y(mlx, x1, y1, x0, y0);
-		else
-			line_y(mlx, x0, y0, x1, y1);
-	}
-	*/
 }
 
 t_line		*init_line(void)
@@ -136,7 +120,7 @@ t_line		*init_line(void)
 	line->xyxy[1] = 0;
 	line->xyxy[2] = 0;
 	line->xyxy[3] = 0;
-	line->color = 0xFFFFFF;
+	line->color = DEFAULT_COLOR;
 	return (line);
 }
 
@@ -153,7 +137,7 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 
 	y = 0;
 	line = mlx->s_line;
-	while (y <= s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
+	while (y < s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
 	{
 		x = 0;
 		//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
@@ -166,24 +150,31 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 		//line->xyxy[2] = x * mlx->zoom + mlx->x_offset; 			//are these four needed?
 		//line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset; 	//are these four needed?
 		//plot_line(mlx);
-		while (x <= s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
+		while (x < s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
 		{
-			if (x < s_map->cols + 1)
+			if (x < s_map->cols && y < s_map->rows)
+			{
+				if (s_map->map[y][x])
+					mlx->color = 0xFF0000;
+				else
+					mlx->color = DEFAULT_COLOR;
+			}
+			if (x + 1 < s_map->cols)
 			{
 				//printf("%d cols\n", s_map->cols);
 				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
 				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
-				line->xyxy[2] = x + 1 * mlx->zoom + mlx->x_offset;
+				line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
 				line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
 				plot_line(mlx);
 			}
-			if (y < s_map->rows + 1)
+			if (y + 1 < s_map->rows)
 			{
 				//printf("%d rows\n", s_map->rows);
 				line->xyxy[0] = x * mlx->zoom + mlx->x_offset;	//are these needed?
 				line->xyxy[1] = y * mlx->zoom + mlx->y_offset;	//are these needed?
 				line->xyxy[2] = x * mlx->zoom + mlx->x_offset;
-				line->xyxy[3] = y + 1 * mlx->zoom + mlx->y_offset;
+				line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset;
 				plot_line(mlx);
 			}
 			x++;
