@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 21:32:59 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/13 17:01:10 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct	s_line
 	/*
 	**	xyxy[0] = x0, xyxy[1] = y0, xyxy[2] = x1, xyxy[3] = y1, xyxy[4] = z
 	*/
-	int		xyxy[5];
+	int		xyxy[6];
 	int		color;
 }				t_line;
 

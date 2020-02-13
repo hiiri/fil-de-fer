@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 21:37:46 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/13 17:01:17 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	int	dir_y;
 	int	yi;
 	int	d;
-	int	y;
 	int	pixel_x;
 	int	pixel_y;
 
-	y = 0;
 	dir_x = x1 - x0;
 	dir_y = y1 - y0;
 	yi = 1;
@@ -39,7 +37,7 @@ static void	line_x(t_mlx *mlx, int x0, int y0, int x1, int y1)
 		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, mlx->color);
 		if (d > 0)
 		{
-			y += yi;
+			pixel_y += yi;
 			d -= 2 * dir_x;
 		}
 		d += 2 * dir_y;
@@ -53,11 +51,9 @@ static void	line_y(t_mlx *mlx, int x0, int y0, int x1, int y1)
 	int	dir_y;
 	int	xi;
 	int	d;
-	int	x;
 	int	pixel_x;
 	int	pixel_y;
 
-	x = 0;
 	dir_x = x1 - x0;
 	dir_y = y1 - y0;
 	xi = 1;
@@ -74,7 +70,7 @@ static void	line_y(t_mlx *mlx, int x0, int y0, int x1, int y1)
 		mlx_pixel_put(mlx->init, mlx->window, pixel_x, pixel_y, mlx->color);
 		if (d > 0)
 		{
-			x += xi;
+			pixel_x += xi;
 			d -= 2 * dir_y;
 		}
 		d += 2 * dir_x;
@@ -126,15 +122,19 @@ t_line		*init_line(void)
 
 void		make_line(t_mlx *mlx, int coords[4])
 {
+	coords[0] = coords[0] * mlx->zoom;
+	coords[1] = coords[1] * mlx->zoom;
+	coords[2] = coords[2] * mlx->zoom;
+	coords[3] = coords[3] * mlx->zoom;
 	if (mlx->projection == 1)
 	{
 		//transform_to_isometric(mlx->s_line);
 		transform_to_isometric(mlx->s_line, coords);
 	}
-	mlx->s_line->xyxy[0] = coords[0] * mlx->zoom + mlx->x_offset;
-	mlx->s_line->xyxy[1] = coords[1] * mlx->zoom + mlx->y_offset;
-	mlx->s_line->xyxy[2] = coords[2] * mlx->zoom + mlx->x_offset;
-	mlx->s_line->xyxy[3] = coords[3] * mlx->zoom + mlx->y_offset;
+	mlx->s_line->xyxy[0] = coords[0] + mlx->x_offset;
+	mlx->s_line->xyxy[1] = coords[1] + mlx->y_offset;
+	mlx->s_line->xyxy[2] = coords[2] + mlx->x_offset;
+	mlx->s_line->xyxy[3] = coords[3] + mlx->y_offset;
 }
 
 void		draw_map(t_mlx *mlx, t_map *s_map)
@@ -172,6 +172,7 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 			//		transform_to_isometric(line, );
 			if (x + 1 < s_map->cols)
 			{
+				line->xyxy[5] = s_map->map[y][x + 1];
 				make_line(mlx, (int [4]){x, y, x + 1, y});
 				//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
 				//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
@@ -182,6 +183,7 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 			}
 			if (y + 1 < s_map->rows)
 			{
+				line->xyxy[5] = s_map->map[y + 1][x];
 				make_line(mlx, (int [4]){x, y, x, y + 1});
 				//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;	//are these needed?
 				//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;	//are these needed?
@@ -208,7 +210,9 @@ void		transform_to_isometric(t_line *line, int coords[4])
 	previous_x = coords[2];
 	previous_y = coords[3];
 	coords[2] = (previous_x - previous_y) * cos(0.523599);
-	coords[3] = -line->xyxy[4] + (previous_x + previous_y) * sin(0.523599);
+	coords[3] = -line->xyxy[5] + (previous_x + previous_y) * sin(0.523599);
+	printf("xx%d, %d\n", coords[0], coords[2]);
+	printf("yy%d, %d\n", coords[1], coords[3]);
 	//if (line->xyxy[0] && line->xyxy[1] && line->xyxy[2] && line->xyxy[3])
 	//{
 	/*previous_x = line->xyxy[0];
