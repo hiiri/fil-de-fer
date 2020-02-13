@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 15:21:34 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/11 20:16:49 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ t_mlx	*initialize_mlx_struct(void)
 
 	if (!(mlx = (t_mlx*)malloc(sizeof(*mlx))))
 		return (NULL);
-	mlx->color = 0xFFFF;
 	mlx->height = WINDOW_HEIGHT;
 	mlx->width = WINDOW_WIDTH;
 	mlx->zoom = ZOOM;
 	mlx->x_offset = X_OFFSET;
 	mlx->y_offset = Y_OFFSET;
+	mlx->projection = 1;
 	return (mlx);
 }
 
@@ -43,6 +43,8 @@ int		deal_key(int key, void *param)
 		mlx->x_offset--;
 	else if (key == RIGHT_ARROW)
 		mlx->x_offset++;
+	else if (key == CHANGE_PROJECTION)
+		mlx->projection = !mlx->projection;
 	mlx_clear_window(mlx->init, mlx->window);
 	draw_map(mlx, mlx->s_map);
 	return (0);
@@ -104,11 +106,9 @@ int	main(int argc, char **argv)
 		return (0);
 	mlx->init = mlx_init();
 	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");
-	mlx->color = 0xFFFFFF;
 	mlx->s_map = s_map;
 	mlx->s_line = init_line();
 	draw_map(mlx, mlx->s_map);
-	//draw_line(mlx_ptr, win_ptr, 0, 0, 200, 200, 0xFFFFFF);
 	mlx_hook(mlx->window, 2, 0, deal_key, mlx);
 	mlx_hook(mlx->window, 4, 0, mouse_event, mlx);
 	mlx_loop(mlx->init);
