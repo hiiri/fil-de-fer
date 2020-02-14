@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/13 17:01:10 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/02/14 16:08:13 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
-# define ZOOM 5
-# define X_OFFSET 100
+# define ZOOM 20
+# define X_OFFSET 300
 # define Y_OFFSET 100
+# define OFFSET_AMOUNT 5
 # define DEFAULT_COLOR 0xFFFFFF
 # define UP_ARROW 126
 # define DOWN_ARROW 125
@@ -64,7 +65,8 @@ typedef struct	s_mlx
 	int		x_offset;
 	int		y_offset;
 	int		color;
-	/* projection: Isometric = 1
+	/*
+	** projection: Isometric = 1
 	*/
 	int		projection;
 	t_map	*s_map;

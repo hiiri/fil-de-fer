@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/11 20:16:49 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/13 17:28:16 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_mlx	*initialize_mlx_struct(void)
 	mlx->x_offset = X_OFFSET;
 	mlx->y_offset = Y_OFFSET;
 	mlx->projection = 1;
+	mlx->color = DEFAULT_COLOR;
 	return (mlx);
 }
 
@@ -36,13 +37,13 @@ int		deal_key(int key, void *param)
 	if (key == 53)
 		exit(0);
 	if (key == UP_ARROW)
-		mlx->y_offset--;
+		mlx->y_offset -= OFFSET_AMOUNT;
 	else if (key == DOWN_ARROW)
-		mlx->y_offset++;
+		mlx->y_offset += OFFSET_AMOUNT;
 	else if (key == LEFT_ARROW)
-		mlx->x_offset--;
+		mlx->x_offset -= OFFSET_AMOUNT;
 	else if (key == RIGHT_ARROW)
-		mlx->x_offset++;
+		mlx->x_offset += OFFSET_AMOUNT;
 	else if (key == CHANGE_PROJECTION)
 		mlx->projection = !mlx->projection;
 	mlx_clear_window(mlx->init, mlx->window);

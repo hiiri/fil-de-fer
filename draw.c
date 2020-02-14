@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/13 17:01:17 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/02/14 16:09:49 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,51 +145,30 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 
 	y = 0;
 	line = mlx->s_line;
-	while (y < s_map->rows) // maybe add y-1 or y+1 if too many/too few rows
+	while (y < s_map->rows)
 	{
 		x = 0;
-		//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
-		//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
-		//line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
-		//line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
-		//plot_line(mlx);
-		//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;		//are these four needed?
-		//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;		//are these four needed?
-		//line->xyxy[2] = x * mlx->zoom + mlx->x_offset; 			//are these four needed?
-		//line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset; 	//are these four needed?
-		//plot_line(mlx);
-		while (x < s_map->cols) // maybe add x-1 or x+1 if too many/too few cols
+		while (x < s_map->cols)
 		{
-			if (x < s_map->cols && y < s_map->rows)
+			line->xyxy[4] = s_map->map[y][x];
+			if (x + 1 < s_map->cols)
 			{
 				if (s_map->map[y][x])
 					mlx->color = 0xFF0000;
 				else
 					mlx->color = DEFAULT_COLOR;
-			}
-			line->xyxy[4] = s_map->map[y][x];
-			//if (mlx->projection == 1)
-			//		transform_to_isometric(line, );
-			if (x + 1 < s_map->cols)
-			{
 				line->xyxy[5] = s_map->map[y][x + 1];
 				make_line(mlx, (int [4]){x, y, x + 1, y});
-				//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;
-				//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;
-				//line->xyxy[2] = (x + 1) * mlx->zoom + mlx->x_offset;
-				//line->xyxy[3] = y * mlx->zoom + mlx->y_offset;
-
 				plot_line(mlx);
 			}
 			if (y + 1 < s_map->rows)
 			{
+				if (s_map->map[y][x])
+					mlx->color = 0xFF0000;
+				else
+					mlx->color = DEFAULT_COLOR;
 				line->xyxy[5] = s_map->map[y + 1][x];
 				make_line(mlx, (int [4]){x, y, x, y + 1});
-				//line->xyxy[0] = x * mlx->zoom + mlx->x_offset;	//are these needed?
-				//line->xyxy[1] = y * mlx->zoom + mlx->y_offset;	//are these needed?
-				//line->xyxy[2] = x * mlx->zoom + mlx->x_offset;
-				//line->xyxy[3] = (y + 1) * mlx->zoom + mlx->y_offset;
-
 				plot_line(mlx);
 			}
 			x++;
@@ -204,26 +183,10 @@ void		transform_to_isometric(t_line *line, int coords[4])
 	int	previous_y;
 	previous_x = coords[0];
 	previous_y = coords[1];
-	printf("%d, %d, %d\n", previous_x, previous_y, line->xyxy[4]);
 	coords[0] = (previous_x - previous_y) * cos(0.523599);
 	coords[1] = -line->xyxy[4] + (previous_x + previous_y) * sin(0.523599);
 	previous_x = coords[2];
 	previous_y = coords[3];
 	coords[2] = (previous_x - previous_y) * cos(0.523599);
 	coords[3] = -line->xyxy[5] + (previous_x + previous_y) * sin(0.523599);
-	printf("xx%d, %d\n", coords[0], coords[2]);
-	printf("yy%d, %d\n", coords[1], coords[3]);
-	//if (line->xyxy[0] && line->xyxy[1] && line->xyxy[2] && line->xyxy[3])
-	//{
-	/*previous_x = line->xyxy[0];
-	previous_y = line->xyxy[1];
-	printf("%d, %d, %d\n", previous_x, previous_y, line->xyxy[4]);
-	line->xyxy[0] = (previous_x - previous_y) * cos(0.523599);
-	line->xyxy[1] = -line->xyxy[4] + (previous_x + previous_y) * sin(0.523599);
-	previous_x = line->xyxy[2];
-	previous_y = line->xyxy[3];
-	line->xyxy[2] = (previous_x - previous_y) * cos(0.523599);
-	line->xyxy[3] = -line->xyxy[4] + (previous_x + previous_y) * sin(0.523599);
-	*/
-	//}
 }
