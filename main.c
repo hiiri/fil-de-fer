@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/13 17:28:16 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/14 17:17:58 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_mlx	*initialize_mlx_struct(void)
 	t_mlx	*mlx;
 
 	if (!(mlx = (t_mlx*)malloc(sizeof(*mlx))))
-		return (NULL);
+		handle_error(ERROR_MALLOC);
 	mlx->height = WINDOW_HEIGHT;
 	mlx->width = WINDOW_WIDTH;
 	mlx->zoom = ZOOM;
@@ -73,22 +73,31 @@ int		mouse_event(int button, int x, int y, void *param)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+void	handle_error(int error)
+{
+	if (error == ERROR_ARGS)
+		write(1, "Argument count must be 1\n", 25);
+	else if (error == ERROR_MALLOC)
+		write(1, "Malloc error\n", 13);
+	else if (error == ERROR_READING_FILE)
+		write(1, "Couldn't read file\n", 19);
+	else if (error == ERROR_INVALID_MAP)
+		write(1, "Invalid map\n", 12);
+	exit(0);
+}
+
+int		main(int argc, char **argv)
 {
 	t_mlx	*mlx;
 	t_map	*s_map;
 	int		i;
 	int		j;
 
-	i = 0;
-	j = 0;
-	if (argc == 2)
-	{
-		s_map = (t_map *)malloc(sizeof(*s_map));
-		make_map(argv[1], s_map);
-	}
-	else
-		exit(0);
+	if (argc != 2)
+		handle_error(1);
+	if (!(s_map = (t_map *)malloc(sizeof(*s_map))))
+		handle_error(ERROR_MALLOC);
+	make_map(argv[1], s_map);
 	i = 0;
 	j = 0;
 	while (i < s_map->rows)
@@ -103,8 +112,6 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	mlx = initialize_mlx_struct();
-	if (mlx == NULL)
-		return (0);
 	mlx->init = mlx_init();
 	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");
 	mlx->s_map = s_map;

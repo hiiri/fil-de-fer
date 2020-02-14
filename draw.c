@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/14 16:09:49 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/14 17:04:53 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_line		*init_line(void)
 	t_line	*line;
 
 	if (!(line = (t_line*)malloc(sizeof(*line))))
-		return (NULL);
+		handle_error(ERROR_MALLOC);
 	line->xyxy[0] = 0;
 	line->xyxy[1] = 0;
 	line->xyxy[2] = 0;

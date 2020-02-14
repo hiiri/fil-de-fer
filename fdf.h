@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/14 16:08:13 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/14 17:11:31 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define LEFT_ARROW 123
 # define RIGHT_ARROW 124
 # define CHANGE_PROJECTION 35
+# define ERROR_ARGS 1
+# define ERROR_MALLOC 2
+# define ERROR_READING_FILE 3
+# define ERROR_INVALID_MAP 4
 
 /*
 **	Keys:
@@ -81,4 +85,5 @@ void			make_map(char *filename, t_map *s_map);
 void			draw_map(t_mlx *mlx, t_map *s_map);
 void			make_line(t_mlx *mlx, int coords[4]);
 void			transform_to_isometric(t_line *line, int coords[4]);
+void			handle_error(int error);
 #endif

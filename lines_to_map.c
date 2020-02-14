@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/13 17:18:09 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/14 17:18:24 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void		split_line_to_map(char *line, t_map *s_map)
 	j = 0;
 	count = count_ints(line);
 	if (!(s_map->map[s_map->rows] = (int *)malloc(sizeof(int) * count)))
-		exit(0);
+		handle_error(ERROR_MALLOC);
 	while (line[i])
 	{
 		while (line[i] == ' ')
@@ -55,6 +55,8 @@ static void		split_line_to_map(char *line, t_map *s_map)
 		while (line[i] != ' ' && line[i])
 			i++;
 	}
+	if (s_map->cols && s_map->cols != (int)j)
+		handle_error(ERROR_INVALID_MAP);
 	s_map->rows++;
 	s_map->cols = j;
 }
@@ -64,11 +66,13 @@ static void		malloc_row(t_map *s_map)
 	int		**temp;
 	int		i;
 
-	temp = (int **)malloc(sizeof(int *) * s_map->rows);
+	if (!(temp = (int **)malloc(sizeof(int *) * s_map->rows)))
+		handle_error(ERROR_MALLOC);
 	ft_memcpy(temp, s_map->map, sizeof(int **) * s_map->rows);
 	if (s_map->rows)
 		free(s_map->map);
-	s_map->map = (int **)malloc(sizeof(int *) * s_map->rows + 1);
+	if (!(s_map->map = (int **)malloc(sizeof(int *) * s_map->rows + 1)))
+		handle_error(ERROR_MALLOC);
 	i = 0;
 	while (i < s_map->rows)
 	{
@@ -85,6 +89,8 @@ void			make_map(char *filename, t_map *s_map)
 	s_map->rows = 0;
 	s_map->cols = 0;
 	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		handle_error(ERROR_READING_FILE);
 	while (get_next_line(fd, &line) > 0)
 	{
 		malloc_row(s_map);
