@@ -6,7 +6,7 @@
 #    By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/18 20:45:50 by alcohen           #+#    #+#              #
-#    Updated: 2020/02/07 17:01:26 by alcohen          ###   ########.fr        #
+#    Updated: 2020/02/24 20:07:49 by alcohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,11 @@ MLX = -I /usr/local/include -L /usr/local/lib/ -lmlx -framework OpenGL \
 -framework AppKit
 
 all: $(NAME)
+
+noflags:
+	@$(MAKE_LIB)
+	gcc -c $(SRCS)
+	gcc $(MLX) -o $(NAME) $(OBJS) $(LIBFT)
 
 $(NAME):
 	@$(MAKE_LIB)

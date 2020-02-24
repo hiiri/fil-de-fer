@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/24 18:01:31 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/24 19:42:02 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_mlx	*initialize_mlx_struct(void)
 	mlx->y_offset = Y_OFFSET;
 	mlx->projection = 1;
 	mlx->color = DEFAULT_COLOR;
+	mlx->biggest_z = 0;
+	mlx->smallest_z = 0;
 	return (mlx);
 }
 
@@ -86,6 +88,27 @@ void	handle_error(int error)
 	exit(0);
 }
 
+static void		find_z_value_range(t_mlx *mlx, t_map *s_map)
+{
+	int	x;
+	int y;
+
+	x = 0;
+	while (x < s_map->cols)
+	{
+		y = 0;
+		while (y < s_map->rows)
+		{
+			if (s_map->map[y][x] < mlx->smallest_z)
+				mlx->smallest_z = s_map->map[y][x];
+			if (s_map->map[y][x] > mlx->biggest_z)
+				mlx->biggest_z = s_map->map[y][x];
+			y++;
+		}
+		x++;
+	}
+}
+
 int		main(int argc, char **argv)
 {
 	t_mlx	*mlx;
@@ -107,7 +130,7 @@ int		main(int argc, char **argv)
 		j = 0;
 		while (j < s_map->cols)
 		{
-			printf("%3d", s_map->map[i][j]);
+			printf("%3d\n", s_map->map[i][j]);
 			j++;
 		}
 		printf("\n");
@@ -118,7 +141,7 @@ int		main(int argc, char **argv)
 	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");
 	mlx->s_map = s_map;
 	mlx->s_line = init_line();
-	printf("%d\n", s_map->rows);
+	find_z_value_range(mlx, s_map);
 	draw_map(mlx, mlx->s_map);
 	mlx_hook(mlx->window, 2, 0, deal_key, mlx);
 	mlx_hook(mlx->window, 4, 0, mouse_event, mlx);

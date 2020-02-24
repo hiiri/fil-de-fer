@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/24 18:38:44 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/24 21:02:12 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,7 @@ t_line		*init_line(void)
 	return (line);
 }
 
-void
-		make_line(t_mlx *mlx, int coords[4])
+void	make_line(t_mlx *mlx, int coords[4])
 {
 	coords[0] = coords[0] * mlx->zoom;
 	coords[1] = coords[1] * mlx->zoom;
@@ -135,6 +134,48 @@ void
 	mlx->s_line->xyxy[1] = coords[1] + mlx->y_offset;
 	mlx->s_line->xyxy[2] = coords[2] + mlx->x_offset;
 	mlx->s_line->xyxy[3] = coords[3] + mlx->y_offset;
+}
+
+static void	handle_color(t_mlx *mlx, int z1, int z2)
+{
+	double	z1_scaled;
+	double	z2_scaled;
+	double	diff;
+	double	slope = 1.0 * (1 - 0) / (mlx->biggest_z - mlx->smallest_z);
+	z1_scaled = 0 + slope * (z1 - mlx->smallest_z);
+	z2_scaled = 0 + slope * (z2 - mlx->smallest_z);
+	//printf("scaling %d %d\n", z1, z2);
+	/*if (z1 && z2 && z1 == z2)
+		mlx->color = 0xFF0000;
+	else if (z1 || z2)
+		mlx->color = 0xFFF000;
+	else
+		mlx->color = 0xFFFFFF;
+	*/
+	if (z1_scaled <= z2_scaled)
+	{
+		diff = z2_scaled - z1_scaled;
+	}
+	else
+	{
+		diff = z1_scaled - z2_scaled;
+	}
+	if (z1_scaled < 0.6 || z2_scaled < 0.6)
+		mlx->color = 0x3399ff;
+	else if (z1_scaled < 0.7 || z2_scaled < 0.7)
+		mlx->color = 0x00cc66;
+	else if (z1_scaled < 0.8 || z2_scaled < 0.8)
+		mlx->color = 0x009900;
+	else
+		mlx->color = 0x336600;
+	/*
+	if (diff > 0.5 || z1_scaled > 0.5 || z2_scaled > 0.5)
+		mlx->color = 0xFF0000;
+	else
+		mlx->color = 0xFFFFFF;
+		*/
+	//printf("%d z1, %d z2, %f z1scaled %f z2scaled %x color %f diff\n", z1, z2, z1_scaled, z2_scaled, mlx->color, diff);
+	//printf("diff %f\n", diff);
 }
 
 void		draw_map(t_mlx *mlx, t_map *s_map)
@@ -153,21 +194,40 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 			line->xyxy[4] = s_map->map[y][x];
 			if (x + 1 < s_map->cols)
 			{
+				/*
 				if ((s_map->map[y][x]) || (x + 1 < s_map->cols && s_map->map[y][x+1]))
 					mlx->color = 0xFF0000;
 				else
 					mlx->color = DEFAULT_COLOR;
-
+				*/
+				/*
+				if ((s_map->map[y][x]) || (x + 1 < s_map->cols && s_map->map[y][x+1]))
+					handle_color(mlx, s_map->map[y][x], s_map->map[y][x+1]);
+				else
+					mlx->color = DEFAULT_COLOR;
+				*/
+				handle_color(mlx, s_map->map[y][x], s_map->map[y][x+1]);
 				line->xyxy[5] = s_map->map[y][x + 1];
 				make_line(mlx, (int [4]){x, y, x + 1, y});
 				plot_line(mlx);
 			}
 			if (y + 1 < s_map->rows)
 			{
+				/*
 				if ((s_map->map[y][x]) || (y + 1 < s_map->rows && s_map->map[y+1][x]))
 					mlx->color = 0xFF0000;
 				else
 					mlx->color = DEFAULT_COLOR;
+				*/
+				/*
+				if ((s_map->map[y][x]) || (y + 1 < s_map->rows && s_map->map[y+1][x]))
+					handle_color(mlx, s_map->map[y][x], s_map->map[y+1][x]);
+				else
+				{
+					mlx->color = DEFAULT_COLOR;
+				}
+				*/
+				handle_color(mlx, s_map->map[y][x], s_map->map[y+1][x]);
 				line->xyxy[5] = s_map->map[y + 1][x];
 				make_line(mlx, (int [4]){x, y, x, y + 1});
 				plot_line(mlx);

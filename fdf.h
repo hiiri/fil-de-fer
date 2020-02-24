@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/14 17:11:31 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/24 18:50:19 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct	s_mlx
 	int		zoom;
 	int		x_offset;
 	int		y_offset;
+	int		smallest_z;
+	int		biggest_z;
 	int		color;
 	/*
 	** projection: Isometric = 1
