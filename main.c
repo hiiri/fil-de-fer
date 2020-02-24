@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/14 17:17:58 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/24 18:01:31 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int		main(int argc, char **argv)
 	if (!(s_map = (t_map *)malloc(sizeof(*s_map))))
 		handle_error(ERROR_MALLOC);
 	make_map(argv[1], s_map);
+	if (s_map->rows == 0)
+		handle_error(ERROR_INVALID_MAP);
 	i = 0;
 	j = 0;
 	while (i < s_map->rows)
@@ -116,6 +118,7 @@ int		main(int argc, char **argv)
 	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");
 	mlx->s_map = s_map;
 	mlx->s_line = init_line();
+	printf("%d\n", s_map->rows);
 	draw_map(mlx, mlx->s_map);
 	mlx_hook(mlx->window, 2, 0, deal_key, mlx);
 	mlx_hook(mlx->window, 4, 0, mouse_event, mlx);

@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/14 17:04:53 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/24 18:38:44 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ t_line		*init_line(void)
 	return (line);
 }
 
-void		make_line(t_mlx *mlx, int coords[4])
+void
+		make_line(t_mlx *mlx, int coords[4])
 {
 	coords[0] = coords[0] * mlx->zoom;
 	coords[1] = coords[1] * mlx->zoom;
@@ -128,7 +129,6 @@ void		make_line(t_mlx *mlx, int coords[4])
 	coords[3] = coords[3] * mlx->zoom;
 	if (mlx->projection == 1)
 	{
-		//transform_to_isometric(mlx->s_line);
 		transform_to_isometric(mlx->s_line, coords);
 	}
 	mlx->s_line->xyxy[0] = coords[0] + mlx->x_offset;
@@ -153,17 +153,18 @@ void		draw_map(t_mlx *mlx, t_map *s_map)
 			line->xyxy[4] = s_map->map[y][x];
 			if (x + 1 < s_map->cols)
 			{
-				if (s_map->map[y][x])
+				if ((s_map->map[y][x]) || (x + 1 < s_map->cols && s_map->map[y][x+1]))
 					mlx->color = 0xFF0000;
 				else
 					mlx->color = DEFAULT_COLOR;
+
 				line->xyxy[5] = s_map->map[y][x + 1];
 				make_line(mlx, (int [4]){x, y, x + 1, y});
 				plot_line(mlx);
 			}
 			if (y + 1 < s_map->rows)
 			{
-				if (s_map->map[y][x])
+				if ((s_map->map[y][x]) || (y + 1 < s_map->rows && s_map->map[y+1][x]))
 					mlx->color = 0xFF0000;
 				else
 					mlx->color = DEFAULT_COLOR;
