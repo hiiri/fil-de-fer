@@ -6,7 +6,7 @@
 #    By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 13:37:21 by alcohen           #+#    #+#              #
-#    Updated: 2020/02/05 15:00:11 by alcohen          ###   ########.fr        #
+#    Updated: 2020/02/25 16:30:42 by alcohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRCS = ft_atoi.c \
 	   ft_strjoin.c \
 	   ft_memalloc.c \
 	   get_next_line.c \
+	   ft_atoilong.c \
 
 OBJS = $(SRCS:.c=.o)
 

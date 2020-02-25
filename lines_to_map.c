@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/24 18:52:29 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:33:36 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,19 @@ static size_t	count_ints(char *s)
 	flag = 0;
 	while (s[i])
 	{
-		if (flag && s[i] == ' ')
-			flag = 0;
-		if (!flag && s[i] != ' ')
+		if (ft_isdigit(s[i]) || s[i] == ' ' || s[i] == '-')
 		{
-			flag = 1;
-			count++;
+			if (flag && s[i] == ' ')
+				flag = 0;
+			if (!flag && s[i] != ' ')
+			{
+				flag = 1;
+				count++;
+			}
+			i++;
 		}
-		i++;
+		else
+			handle_error(ERROR_INVALID_MAP);
 	}
 	return (count);
 }
@@ -40,20 +45,38 @@ static void		split_line_to_map(char *line, t_map *s_map)
 	size_t	count;
 	size_t	i;
 	size_t	j;
+	long	curr_num;
+	int		num_len;
 
 	i = 0;
 	j = 0;
 	count = count_ints(line);
 	if (!(s_map->map[s_map->rows] = (int *)malloc(sizeof(int) * count)))
 		handle_error(ERROR_MALLOC);
+	printf("%zu count\n", count);
 	while (line[i])
 	{
+		num_len = 0;
 		while (line[i] == ' ')
 			i++;
+		printf("%zu i \n", i);
 		if (line[i])
+		{
+			curr_num = ft_atoilong(&line[i]);
+			if (curr_num > 2147483647 || curr_num < -2147483648)
+				handle_error(ERROR_INVALID_MAP);
 			s_map->map[s_map->rows][j++] = ft_atoi(&line[i]);
+		}
 		while (line[i] != ' ' && line[i])
+		{
+			if (line[i] == '-')
+				num_len--;
+			num_len++;
 			i++;
+		}
+		printf("%d numlen\n", num_len);
+		if (num_len >= 11)
+			handle_error(ERROR_INVALID_MAP);
 	}
 	if (s_map->cols && s_map->cols != (int)j)
 		handle_error(ERROR_INVALID_MAP);
@@ -79,6 +102,7 @@ static void		malloc_row(t_map *s_map)
 		s_map->map[i] = temp[i];
 		i++;
 	}
+	free(temp);
 }
 
 void			make_map(char *filename, t_map *s_map)
