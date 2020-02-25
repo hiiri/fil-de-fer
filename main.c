@@ -6,14 +6,14 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/25 19:47:19 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/25 20:12:05 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h> //remove
 
-t_mlx	*initialize_mlx_struct(void)
+t_mlx			*initialize_mlx_struct(void)
 {
 	t_mlx	*mlx;
 
@@ -31,7 +31,7 @@ t_mlx	*initialize_mlx_struct(void)
 	return (mlx);
 }
 
-int		deal_key(int key, void *param)
+int				deal_key(int key, void *param)
 {
 	t_mlx	*mlx;
 
@@ -53,7 +53,7 @@ int		deal_key(int key, void *param)
 	return (0);
 }
 
-int		mouse_event(int button, int x, int y, void *param)
+int				mouse_event(int button, int x, int y, void *param)
 {
 	t_mlx	*mlx;
 
@@ -75,7 +75,7 @@ int		mouse_event(int button, int x, int y, void *param)
 	return (0);
 }
 
-void	handle_error(int error)
+void			handle_error(int error)
 {
 	if (error == ERROR_ARGS)
 		write(1, "Argument count must be 1\n", 25);
@@ -109,7 +109,7 @@ static void		find_z_value_range(t_mlx *mlx, t_map *s_map)
 	}
 }
 
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_mlx	*mlx;
 	t_map	*s_map;

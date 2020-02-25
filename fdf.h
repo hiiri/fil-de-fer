@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/24 18:50:19 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/25 20:15:59 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
-# include <stdio.h> //remove this
 
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
@@ -50,11 +49,13 @@ typedef struct	s_map
 	int		cols;
 }				t_map;
 
+/*
+**	xyxy[0] = x0, xyxy[1] = y0, xyxy[2] = x1,
+**	xyxy[3] = y1, xyxy[4] = z1, xyxy[5] = z2
+*/
+
 typedef struct	s_line
 {
-	/*
-	**	xyxy[0] = x0, xyxy[1] = y0, xyxy[2] = x1, xyxy[3] = y1, xyxy[4] = z
-	*/
 	int		xyxy[6];
 	int		color;
 }				t_line;
@@ -71,9 +72,6 @@ typedef struct	s_mlx
 	int		smallest_z;
 	int		biggest_z;
 	int		color;
-	/*
-	** projection: Isometric = 1
-	*/
 	int		projection;
 	t_map	*s_map;
 	t_line	*s_line;
