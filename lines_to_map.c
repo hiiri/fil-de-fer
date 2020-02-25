@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/25 16:33:36 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/25 19:55:17 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,6 @@ void			make_map(char *filename, t_map *s_map)
 		split_line_to_map(line, s_map);
 		free(line);
 	}
+	free(line);
 	close(fd);
 }
