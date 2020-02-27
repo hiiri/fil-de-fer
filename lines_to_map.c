@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 18:49:41 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 19:24:01 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			validate_input(char *line, t_map *s_map)
 		if (num_len >= 11)
 			handle_error(ERROR_INVALID_MAP);
 	}
-	if (j == 0 || (s_map->cols && s_map->cols != (int)j))
+	if (j == 0 || (s_map->cols && s_map->cols != j))
 		handle_error(ERROR_INVALID_MAP);
 	s_map->rows++;
 	s_map->cols = j;

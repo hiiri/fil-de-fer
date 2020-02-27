@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 18:47:04 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 19:50:52 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct	s_map
 typedef struct	s_line
 {
 	double		xyxy[6];
-	int		color;
+	int			color;
 }				t_line;
 
 typedef struct	s_mlx
@@ -88,13 +88,18 @@ t_mlx			*initialize_mlx_struct(void);
 t_line			*init_line(void);
 int				deal_key(int key, void *param);
 int				mouse_event(int button, int x, int y, void *param);
-int				mouse_release(int button, int x, int y, void *param);;
+int				mouse_release(int button, int x, int y, void *param);
 int				mouse_move(int x, int y, void *param);
 void			make_map(char *filename, t_map *s_map);
+void			vert_line(t_mlx *mlx, t_map *s_map, int xy[4], t_line *line);
+void			horiz_line(t_mlx *mlx, t_map *s_map, int xy[4], t_line *line);
+void			plot_line(t_mlx *mlx);
+void			handle_color(t_mlx *mlx, int z1, int z2);
 void			draw_map(t_mlx *mlx, t_map *s_map);
 void			make_line(t_mlx *mlx, int coords[4]);
 void			transform_to_isometric(t_line *line, int coords[4]);
 void			handle_error(int error);
 void			store_number_to_map_if_int(long n, t_map *s_map, int column);
 int				check_for_minus_symbol(char c);
+
 #endif

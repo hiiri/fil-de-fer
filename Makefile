@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+         #
+#    By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/18 20:45:50 by alcohen           #+#    #+#              #
-#    Updated: 2020/02/27 16:43:09 by alcohen          ###   ########.fr        #
+#    Updated: 2020/02/27 19:59:41 by alcohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ FLAGS = -Wall -Wextra -Werror
 NAME = fdf
 
 MAIN = main.c
-SRCS = $(MAIN) lines_to_map.c draw.c handle_mouse.c check_input.c
+SRCS = $(MAIN) lines_to_map.c draw.c handle_mouse.c check_input.c handle_line_creation.c
 OBJS=$(notdir $(SRCS:.c=.o))
 LIBFT = libft/libft.a
 MAKE_LIB=make -C libft/ fclean && make -C libft/
