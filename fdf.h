@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 19:50:52 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 20:14:36 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ void			make_line(t_mlx *mlx, int coords[4]);
 void			transform_to_isometric(t_line *line, int coords[4]);
 void			handle_error(int error);
 void			store_number_to_map_if_int(long n, t_map *s_map, int column);
-int				check_for_minus_symbol(char c);
+int				is_minus_symbol(char c);
 
 #endif

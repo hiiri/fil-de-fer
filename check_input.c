@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:43:21 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 18:52:07 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 20:14:15 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	store_number_to_map_if_int(long n, t_map *s_map, int column)
 	s_map->map[s_map->rows][column] = (int)n;
 }
 
-int		check_for_minus_symbol(char c)
+int		is_minus_symbol(char c)
 {
 	return (c == '-');
 }
