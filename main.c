@@ -6,12 +6,11 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/25 20:12:05 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 16:03:52 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h> //remove
 
 t_mlx			*initialize_mlx_struct(void)
 {
@@ -28,6 +27,10 @@ t_mlx			*initialize_mlx_struct(void)
 	mlx->color = DEFAULT_COLOR;
 	mlx->biggest_z = 0;
 	mlx->smallest_z = 0;
+	mlx->pitch = 0.1;
+	mlx->mouse_x = 0;
+	mlx->mouse_y = 0;
+	mlx->mouse_pressed = 0;
 	return (mlx);
 }
 
@@ -48,30 +51,12 @@ int				deal_key(int key, void *param)
 		mlx->x_offset += OFFSET_AMOUNT;
 	else if (key == CHANGE_PROJECTION)
 		mlx->projection = !mlx->projection;
+	else if (key == Q)
+		mlx->pitch -= PITCH_CHANGE_AMOUNT;
+	else if (key == W)
+		mlx->pitch += PITCH_CHANGE_AMOUNT;
 	mlx_clear_window(mlx->init, mlx->window);
 	draw_map(mlx, mlx->s_map);
-	return (0);
-}
-
-int				mouse_event(int button, int x, int y, void *param)
-{
-	t_mlx	*mlx;
-
-	mlx = param;
-	(void)x;
-	(void)y;
-	if (button == 4)
-	{
-		mlx->zoom--;
-		mlx_clear_window(mlx->init, mlx->window);
-		draw_map(mlx, mlx->s_map);
-	}
-	if (button == 5)
-	{
-		mlx->zoom++;
-		mlx_clear_window(mlx->init, mlx->window);
-		draw_map(mlx, mlx->s_map);
-	}
 	return (0);
 }
 
@@ -130,10 +115,8 @@ int				main(int argc, char **argv)
 		j = 0;
 		while (j < s_map->cols)
 		{
-			printf("%3d\n", s_map->map[i][j]);
 			j++;
 		}
-		printf("\n");
 		i++;
 	}
 	mlx = initialize_mlx_struct();
@@ -145,6 +128,8 @@ int				main(int argc, char **argv)
 	draw_map(mlx, mlx->s_map);
 	mlx_hook(mlx->window, 2, 0, deal_key, mlx);
 	mlx_hook(mlx->window, 4, 0, mouse_event, mlx);
+	mlx_hook(mlx->window, 5, 0, mouse_release, mlx);
+	mlx_hook(mlx->window, 6, 0, mouse_move, mlx);
 	mlx_loop(mlx->init);
 	return (0);
 }

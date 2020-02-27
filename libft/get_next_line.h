@@ -6,14 +6,14 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/03 19:53:22 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/05 15:01:08 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 13:46:54 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 1
+# define BUFF_SIZE 100000
 
 int	get_next_line(const int fd, char **line);
 

@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/25 20:15:59 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 15:06:15 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,18 @@
 
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
-# define ZOOM 20
-# define X_OFFSET 300
-# define Y_OFFSET 100
+# define ZOOM 5
+# define X_OFFSET 100
+# define Y_OFFSET 0
 # define OFFSET_AMOUNT 5
+# define PITCH_CHANGE_AMOUNT 0.01
 # define DEFAULT_COLOR 0xFFFFFF
 # define UP_ARROW 126
 # define DOWN_ARROW 125
 # define LEFT_ARROW 123
 # define RIGHT_ARROW 124
+# define Q 12
+# define W 13
 # define CHANGE_PROJECTION 35
 # define ERROR_ARGS 1
 # define ERROR_MALLOC 2
@@ -56,7 +59,7 @@ typedef struct	s_map
 
 typedef struct	s_line
 {
-	int		xyxy[6];
+	double		xyxy[6];
 	int		color;
 }				t_line;
 
@@ -73,6 +76,10 @@ typedef struct	s_mlx
 	int		biggest_z;
 	int		color;
 	int		projection;
+	int		mouse_x;
+	int		mouse_y;
+	int		mouse_pressed;
+	double	pitch;
 	t_map	*s_map;
 	t_line	*s_line;
 }				t_mlx;
@@ -81,6 +88,8 @@ t_mlx			*initialize_mlx_struct(void);
 t_line			*init_line(void);
 int				deal_key(int key, void *param);
 int				mouse_event(int button, int x, int y, void *param);
+int				mouse_release(int button, int x, int y, void *param);;
+int				mouse_move(int x, int y, void *param);
 void			make_map(char *filename, t_map *s_map);
 void			draw_map(t_mlx *mlx, t_map *s_map);
 void			make_line(t_mlx *mlx, int coords[4]);

@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:20 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/25 20:11:50 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:12:52 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,18 +176,19 @@ void			draw_map(t_mlx *mlx, t_map *s_map)
 		x = 0;
 		while (x < s_map->cols)
 		{
-			line->xyxy[4] = s_map->map[y][x];
+			line->xyxy[4] = s_map->map[y][x] * mlx->zoom * mlx->pitch;
 			if (x + 1 < s_map->cols)
 			{
 				handle_color(mlx, s_map->map[y][x], s_map->map[y][x + 1]);
-				line->xyxy[5] = s_map->map[y][x + 1];
+				line->xyxy[5] = s_map->map[y][x + 1] * mlx->zoom * mlx->pitch;
 				make_line(mlx, (int[4]){x, y, x + 1, y});
 				plot_line(mlx);
 			}
 			if (y + 1 < s_map->rows)
 			{
+
 				handle_color(mlx, s_map->map[y][x], s_map->map[y + 1][x]);
-				line->xyxy[5] = s_map->map[y + 1][x];
+				line->xyxy[5] = s_map->map[y + 1][x] * mlx->zoom * mlx->pitch;
 				make_line(mlx, (int[4]){x, y, x, y + 1});
 				plot_line(mlx);
 			}

@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/25 19:55:17 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 13:43:14 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,11 @@ static void		split_line_to_map(char *line, t_map *s_map)
 	count = count_ints(line);
 	if (!(s_map->map[s_map->rows] = (int *)malloc(sizeof(int) * count)))
 		handle_error(ERROR_MALLOC);
-	printf("%zu count\n", count);
 	while (line[i])
 	{
 		num_len = 0;
 		while (line[i] == ' ')
 			i++;
-		printf("%zu i \n", i);
 		if (line[i])
 		{
 			curr_num = ft_atoilong(&line[i]);
@@ -74,7 +72,6 @@ static void		split_line_to_map(char *line, t_map *s_map)
 			num_len++;
 			i++;
 		}
-		printf("%d numlen\n", num_len);
 		if (num_len >= 11)
 			handle_error(ERROR_INVALID_MAP);
 	}
