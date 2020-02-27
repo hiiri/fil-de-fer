@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 20:14:36 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 20:43:25 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@
 
 /*
 **	Keys:
-**	P = Change projection
+**	P	-	Change projection
+**	Q/W	-	Change height scale
+**	LMB	-	Move image
 */
 
 typedef struct	s_map
