@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:03:34 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 16:04:01 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 16:11:55 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,3 @@ int				mouse_move(int x, int y, void *param)
 	draw_map(mlx, mlx->s_map);
 	return (0);
 }
-

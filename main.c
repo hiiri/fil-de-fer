@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 18:22:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 16:03:52 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 16:13:25 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int				main(int argc, char **argv)
 {
 	t_mlx	*mlx;
 	t_map	*s_map;
-	int		i;
-	int		j;
 
 	if (argc != 2)
 		handle_error(1);
@@ -108,17 +106,6 @@ int				main(int argc, char **argv)
 	make_map(argv[1], s_map);
 	if (s_map->rows == 0)
 		handle_error(ERROR_INVALID_MAP);
-	i = 0;
-	j = 0;
-	while (i < s_map->rows)
-	{
-		j = 0;
-		while (j < s_map->cols)
-		{
-			j++;
-		}
-		i++;
-	}
 	mlx = initialize_mlx_struct();
 	mlx->init = mlx_init();
 	mlx->window = mlx_new_window(mlx->init, mlx->width, mlx->height, "Window");

@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 13:43:14 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/27 16:54:32 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,21 @@ static size_t	count_ints(char *s)
 	return (count);
 }
 
-static void		split_line_to_map(char *line, t_map *s_map)
+void			validate_input(char *line, t_map *s_map)
 {
-	size_t	count;
-	size_t	i;
-	size_t	j;
-	long	curr_num;
 	int		num_len;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	count = count_ints(line);
-	if (!(s_map->map[s_map->rows] = (int *)malloc(sizeof(int) * count)))
-		handle_error(ERROR_MALLOC);
 	while (line[i])
 	{
 		num_len = 0;
 		while (line[i] == ' ')
 			i++;
 		if (line[i])
-		{
-			curr_num = ft_atoilong(&line[i]);
-			if (curr_num > 2147483647 || curr_num < -2147483648)
-				handle_error(ERROR_INVALID_MAP);
-			s_map->map[s_map->rows][j++] = ft_atoi(&line[i]);
-		}
+			store_number_to_map_if_int(ft_atoilong(&line[i]), s_map, j++);
 		while (line[i] != ' ' && line[i])
 		{
 			if (line[i] == '-')
@@ -79,6 +69,16 @@ static void		split_line_to_map(char *line, t_map *s_map)
 		handle_error(ERROR_INVALID_MAP);
 	s_map->rows++;
 	s_map->cols = j;
+}
+
+static void		split_line_to_map(char *line, t_map *s_map)
+{
+	size_t	count;
+
+	count = count_ints(line);
+	if (!(s_map->map[s_map->rows] = (int *)malloc(sizeof(int) * count)))
+		handle_error(ERROR_MALLOC);
+	validate_input(line, s_map);
 }
 
 static void		malloc_row(t_map *s_map)

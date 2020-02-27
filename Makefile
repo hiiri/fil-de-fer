@@ -6,18 +6,16 @@
 #    By: alcohen <alcohen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/18 20:45:50 by alcohen           #+#    #+#              #
-#    Updated: 2020/02/27 16:03:20 by alcohen          ###   ########.fr        #
+#    Updated: 2020/02/27 16:43:09 by alcohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FLAGS = -Wall -Wextra -Werror
 NAME = fdf
-SNAKE = snake
 
 MAIN = main.c
-SRCS = $(MAIN) lines_to_map.c draw.c handle_mouse.c
+SRCS = $(MAIN) lines_to_map.c draw.c handle_mouse.c check_input.c
 OBJS=$(notdir $(SRCS:.c=.o))
-SNAKE_MAIN = snake.c
 LIBFT = libft/libft.a
 MAKE_LIB=make -C libft/ fclean && make -C libft/
 MLX = -I /usr/local/include -L /usr/local/lib/ -lmlx -framework OpenGL \
@@ -34,10 +32,6 @@ $(NAME):
 	@$(MAKE_LIB)
 	gcc $(FLAGS) -c $(SRCS)
 	gcc $(FLAGS) $(MLX) -o $(NAME) $(OBJS) $(LIBFT)
-
-$(SNAKE):
-	gcc -I $(INCLUDES) $(SNAKE_MAIN) $(SRCS) -o $(NAME) -lmlx -framework OpenGL \ 
-	-framework AppKit
 
 re: fclean $(NAME)
 
