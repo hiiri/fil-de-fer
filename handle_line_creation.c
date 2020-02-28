@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 19:36:04 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 20:03:03 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/28 17:59:31 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void			handle_color(t_mlx *mlx, int z1, int z2)
 		mlx->color = 0x336600;
 }
 
+/*
+**	xy[0] = x0, xy[1] = y0, xy[2] = x1, xy[3] = y1
+**	line->xyxy[5] here gets the z value of the point to the right of it
+*/
+
 void			vert_line(t_mlx *mlx, t_map *s_map, int xy[4], t_line *line)
 {
 	handle_color(mlx, s_map->map[xy[1]][xy[0]], s_map->map[xy[3]][xy[2]]);
@@ -47,6 +52,10 @@ void			vert_line(t_mlx *mlx, t_map *s_map, int xy[4], t_line *line)
 	make_line(mlx, (int[4]){xy[0], xy[1], xy[2], xy[3]});
 	plot_line(mlx);
 }
+
+/*
+**	line->xyxy[5] here gets the z value of the point under it
+*/
 
 void			horiz_line(t_mlx *mlx, t_map *s_map, int xy[4], t_line *line)
 {

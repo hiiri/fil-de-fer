@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:26:07 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 20:43:25 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/28 17:55:12 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct	s_map
 
 /*
 **	xyxy[0] = x0, xyxy[1] = y0, xyxy[2] = x1,
-**	xyxy[3] = y1, xyxy[4] = z1, xyxy[5] = z2
+**	xyxy[3] = y1, xyxy[4] = z0, xyxy[5] = z1
 */
 
 typedef struct	s_line
