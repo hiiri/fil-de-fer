@@ -6,7 +6,7 @@
 /*   By: alcohen <alcohen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:27:39 by alcohen           #+#    #+#             */
-/*   Updated: 2020/02/27 20:32:33 by alcohen          ###   ########.fr       */
+/*   Updated: 2020/02/28 17:35:50 by alcohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void			validate_input(char *line, t_map *s_map)
 			i++;
 		if (line[i])
 			store_number_to_map_if_int(ft_atoilong(&line[i]), s_map, j++);
-		while (line[i] != ' ' && line[++i])
+		while (line[i] != ' ' && line[i])
 		{
-			num_len -= is_minus_symbol(line[i - 1]);
+			num_len -= is_minus_symbol(line[i++]);
 			num_len++;
 		}
 		if (num_len >= 11)
@@ -97,7 +97,8 @@ static void		malloc_row(t_map *s_map)
 		s_map->map[i] = temp[i];
 		i++;
 	}
-	free(temp);
+	if (temp)
+		free(temp);
 }
 
 void			make_map(char *filename, t_map *s_map)
